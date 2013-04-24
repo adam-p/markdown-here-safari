@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Author</key>
+	<string>adam-p</string>
+	<key>Builder Version</key>
+	<string>7536.29.13</string>
+	<key>CFBundleDisplayName</key>
+	<string>Markdown Here</string>
+	<key>CFBundleIdentifier</key>
+	<string>pritchard.adam.markdown-here</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>Chrome</key>
+	<dict>
+		<key>Context Menu Items</key>
+		<array>
+			<dict>
+				<key>Command</key>
+				<string>render_toggle</string>
+				<key>Identifier</key>
+				<string>markdown_here_context_toggle</string>
+				<key>Title</key>
+				<string>Markdown Toggle</string>
+			</dict>
+		</array>
+		<key>Database Quota</key>
+		<real>5242880</real>
+		<key>Global Page</key>
+		<string>background.html</string>
+		<key>Toolbar Items</key>
+		<array>
+			<dict>
+				<key>Command</key>
+				<string>render_toggle</string>
+				<key>Identifier</key>
+				<string>markdown_here_toggle_toolbar_button</string>
+				<key>Image</key>
+				<string>markdown-here/src/common/images/icon16.png</string>
+				<key>Label</key>
+				<string>Markdown Toggle</string>
+				<key>Palette Label</key>
+				<string>Markdown Toggle</string>
+				<key>Tool Tip</key>
+				<string>Click to toggle Markdown rendering</string>
+			</dict>
+		</array>
+	</dict>
+	<key>Content</key>
+	<dict>
+		<key>Scripts</key>
+		<dict>
+			<key>End</key>
+			<array>
+				<string>markdown-here/src/common/utils.js</string>
+				<string>markdown-here/src/common/markdown-here.js</string>
+				<string>contentscript.js</string>
+			</array>
+		</dict>
+	</dict>
+	<key>Description</key>
+	<string>Write email in Markdown, and then make it pretty.</string>
+	<key>ExtensionInfoDictionaryVersion</key>
+	<string>1.0</string>
+	<key>Permissions</key>
+	<dict>
+		<key>Website Access</key>
+		<dict>
+			<key>Include Secure Pages</key>
+			<true/>
+			<key>Level</key>
+			<string>All</string>
+		</dict>
+	</dict>
+	<key>Website</key>
+	<string>http://www.markdown-here.com</string>
+</dict>
+</plist>

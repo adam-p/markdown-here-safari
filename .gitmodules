@@ -1,0 +1,3 @@
+[submodule "markdown-here.safariextension/markdown-here"]
+	path = markdown-here.safariextension/markdown-here
+	url = git@github.com:adam-p/markdown-here.git
