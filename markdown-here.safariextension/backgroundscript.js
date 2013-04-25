@@ -60,25 +60,44 @@ safari.application.addEventListener('command', toggleHandler, false);
 
 
 /*
- * Show changelist
+ * Respond to the user asking to see the options page.
  */
 /*
+Handler for the event we get when the `secureSettings` change. The only one we
+act on is the stub "show options" checkbox, which we use to indicate that we
+should... show the options page.
+The reason we use `secureSettings` rather than `settings` is to keep this
+fake option separate from our real options. (Which might not seem terribly
+coherent, and isn't.)
+*/
+function settingsChangeHandler(event) {
+  if (event.key == 'markdown_here_show_options') {
+    var newTab = safari.application.activeBrowserWindow.openTab();
+    newTab.url = safari.extension.baseURI + 'markdown-here/src/common/options.html';
+  }
+}
+safari.extension.secureSettings.addEventListener('change', settingsChangeHandler, false);
+
+
+/*
+ * Show changelist
+ */
 // On each load, check if we should show the options/changelist page.
 window.addEventListener('load', function() {
     OptionsStore.get(function(options) {
-      var appDetails = chrome.app.getDetails();
+      var currentVersion = safari.extension.bundleVersion;
 
       // Have we been updated?
-      if (options['last-version'] !== appDetails.version) {
+      if (safari.extension.secureSettings['last-version'] !== currentVersion) {
         // Open our options page in changelist mode
-        chrome.tabs.create({ url: appDetails.options_page + "#changelist" });
+        var newTab = safari.application.activeBrowserWindow.openTab();
+        newTab.url = safari.extension.baseURI + 'markdown-here/src/common/options.html#changelist';
 
         // Update out last version
-        OptionsStore.set({ 'last-version': appDetails.version });
+        safari.extension.secureSettings['last-version'] = currentVersion;
       }
     });
   }, false);
-*/
 
 
 /*
