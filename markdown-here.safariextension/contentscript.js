@@ -15,7 +15,7 @@ Chrome and Firefox don't behave like that), but for now our code is written
 for one contentscript per page. So we're only going to take action here if
 we're the top-level script.
 */
-var g_permaDisabled = (window.top !== window);
+var g_permaDisabled = (window.top !== window && !window.LOAD_MARKDOWN_HERE_CONTENT_SCRIPT);
 
 
 /*
