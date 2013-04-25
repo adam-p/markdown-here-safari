@@ -117,6 +117,16 @@ function contentMessageHandler(event) {
     return;
   }
 
+  // Set options values.
+  else if (event.name === 'set-options') {
+    OptionsStore.set(event.message.options, function() {
+      event.target.page.dispatchMessage(
+        'set-options-response',
+        { requestID: event.message.requestID });
+    });
+    return;
+  }
+
   // Enable/disable the toggle button.
   else if (event.name === 'show-toggle-button') {
     // Only the active tab gets to set the button state -- ignore messages from
