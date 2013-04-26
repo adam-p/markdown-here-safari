@@ -146,6 +146,16 @@ function contentMessageHandler(event) {
     return;
   }
 
+  // Remove options values.
+  else if (event.name === 'remove-options') {
+    OptionsStore.remove(event.message.arrayOfKeys, function() {
+      event.target.page.dispatchMessage(
+        'remove-options-response',
+        { requestID: event.message.requestID });
+    });
+    return;
+  }
+
   // Enable/disable the toggle button.
   else if (event.name === 'show-toggle-button') {
     // Only the active tab gets to set the button state -- ignore messages from
