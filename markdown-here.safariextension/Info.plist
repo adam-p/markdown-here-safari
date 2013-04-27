@@ -41,7 +41,7 @@
 				<key>Identifier</key>
 				<string>markdown_here_toggle_toolbar_button</string>
 				<key>Image</key>
-				<string>markdown-here/src/common/images/icon16.png</string>
+				<string>icon-button.png</string>
 				<key>Label</key>
 				<string>Markdown Toggle</string>
 				<key>Palette Label</key>
