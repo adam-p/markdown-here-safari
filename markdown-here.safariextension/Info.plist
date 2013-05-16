@@ -9,7 +9,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Markdown Here</string>
 	<key>CFBundleIdentifier</key>
-	<string>pritchard.adam.markdown-here</string>
+	<string>ca.adampritchard.markdown-here.safari</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
@@ -77,6 +77,8 @@
 			<string>All</string>
 		</dict>
 	</dict>
+	<key>Update Manifest URL</key>
+	<string>http://update.markdown-here.com/safari-update-manifest.plist</string>
 	<key>Website</key>
 	<string>http://www.markdown-here.com</string>
 </dict>

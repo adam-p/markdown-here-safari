@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+   <key>Extension Updates</key>
+   <array>
+     <dict>
+
+       <key>CFBundleIdentifier</key>
+       <string>ca.adampritchard.markdown-here.safari</string>
+
+       <key>Developer Identifier</key>
+       <string>BGUP9R32DW</string>
+
+       <key>CFBundleVersion</key>
+       <string>2.8.0</string>
+
+       <key>CFBundleShortVersionString</key>
+       <string>2.8.0</string>
+
+       <key>URL</key>
+       <string>http://update.markdown-here.com/markdown-here.safariextz</string>
+
+     </dict>
+   </array>
+</dict>
+</plist>
