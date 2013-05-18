@@ -89,9 +89,19 @@ window.addEventListener('load', function() {
 
       // Have we been updated?
       if (safari.extension.secureSettings['last-version'] !== currentVersion) {
+
+        // Open our options page
+
+        var optionsUrl = safari.extension.baseURI + 'markdown-here/src/common/options.html';
+
+        // If this is an upgrade, open the options page in changelist mode
+        if (safari.extension.secureSettings['last-version']) {
+          optionsUrl += '?prevVer=' + safari.extension.secureSettings['last-version'];
+        }
+
         // Open our options page in changelist mode
         var newTab = safari.application.activeBrowserWindow.openTab();
-        newTab.url = safari.extension.baseURI + 'markdown-here/src/common/options.html#changelist';
+        newTab.url = optionsUrl;
 
         // Update out last version
         safari.extension.secureSettings['last-version'] = currentVersion;
