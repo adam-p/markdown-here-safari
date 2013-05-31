@@ -54,6 +54,11 @@ function backgroundMessageHandler(event) {
 
     // Check if the focused element is a valid render target
     focusedElem = markdownHere.findFocusedElem(window.document);
+    if (!focusedElem) {
+      // Shouldn't happen. But if it does, just silently abort.
+      return;
+    }
+
     if (!markdownHere.elementCanBeRendered(focusedElem)) {
       alert('The selected field is not valid for Markdown rendering. Please use a rich editor.');
       return;
@@ -260,6 +265,10 @@ if (!g_permaDisabled) {
 
 function intervalCheck() {
   var focusedElem = markdownHere.findFocusedElem(window.document);
+  if (!focusedElem) {
+    return;
+  }
+
   hotkeyIntervalCheck(focusedElem);
   buttonIntervalCheck(focusedElem);
 }
