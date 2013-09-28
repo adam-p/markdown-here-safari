@@ -18,36 +18,12 @@ we're the top-level script.
 var g_permaDisabled = (window.top !== window && !window.LOAD_MARKDOWN_HERE_CONTENT_SCRIPT);
 
 
-/*
-Unlike Chrome, Safari doesn't provide a way to pass a callback to a background-
-script request. We'll keep a set of outstanding callbacks to process as the
-responses come in.
-*/
-var g_requestCallbacks = {};
-
-function makeBackgroundMessageRequest(command, message, callback) {
-  var reqID;
-
-  if (!message) {
-    message = {};
-  }
-
-  if (callback) {
-    reqID = Math.random();
-    g_requestCallbacks[reqID] = callback;
-    message.requestID = reqID;
-  }
-
-  safari.self.tab.dispatchMessage(command, message);
-}
-
-
 // Handle messages received from the background script.
 function backgroundMessageHandler(event) {
   var focusedElem, mdReturn;
 
-  // Do the Markdown render toggle.
   if (event.name === 'mdh-toggle') {
+    // Do the Markdown render toggle.
     if (g_permaDisabled) {
       return;
     }
@@ -76,27 +52,8 @@ function backgroundMessageHandler(event) {
 
     return;
   }
-
-  // Background script sends us back a MD render after we make a render request.
-  else if (event.name === 'render-response') {
-    if (event.message.requestID && g_requestCallbacks[event.message.requestID]) {
-      g_requestCallbacks[event.message.requestID](event.message);
-      delete g_requestCallbacks[event.message.requestID];
-    }
-    return;
-  }
-
-  // The response after we ask the background script for the options.
-  else if (event.name === 'get-options-response') {
-    if (event.message.requestID && g_requestCallbacks[event.message.requestID]) {
-      g_requestCallbacks[event.message.requestID](event.message.options);
-      delete g_requestCallbacks[event.message.requestID];
-    }
-    return;
-  }
-
-  // Background script is letting us know that this tab has been activated.
   else if (event.name === 'tab-activated') {
+    // Background script is letting us know that this tab has been activated.
     // Reset the button enabled state. (Now that this tab is in charge.)
     g_lastElemChecked = undefined;
     g_lastRenderable = undefined;
@@ -104,22 +61,21 @@ function backgroundMessageHandler(event) {
     setToggleButtonVisibility(document.activeElement);
     return;
   }
-
-  // Background script is letting us know that this tab has been deactivated.
   else if (event.name === 'tab-deactivated') {
+    // Background script is letting us know that this tab has been deactivated.
     return;
   }
 }
-safari.self.addEventListener('message', backgroundMessageHandler, true);
+safari.self.addEventListener('message', backgroundMessageHandler, false);
 
 
 // The rendering service provided to the content script.
 // See the comment in markdown-render.js for why we do this.
 function requestMarkdownConversion(html, callback) {
   // Send a request to the add-on script to actually do the rendering.
-  makeBackgroundMessageRequest(
-    'render',
-    { html: html },
+  Utils.makeRequestToPrivilegedScript(
+    document,
+    { action: 'render', html: html },
     function(response) {
       callback(response.html, response.css);
     });
@@ -152,7 +108,9 @@ function requestMarkdownConversion(html, callback) {
 // we're basically relaying entirely on the interval checks.
 
 function showToggleButton(show) {
-  makeBackgroundMessageRequest('show-toggle-button', { show: show });
+  Utils.makeRequestToPrivilegedScript(
+    document,
+    { action: 'show-toggle-button', show: show });
 }
 
 
@@ -254,7 +212,10 @@ function hotkeySetup(prefs) {
   // else the hotkey is disabled and we'll leave hotkeyIntervalCheck as a no-op
 }
 if (!g_permaDisabled) {
-  makeBackgroundMessageRequest('get-options', null, hotkeySetup);
+  Utils.makeRequestToPrivilegedScript(
+    document,
+    { action: 'get-options' },
+    hotkeySetup);
 }
 
 

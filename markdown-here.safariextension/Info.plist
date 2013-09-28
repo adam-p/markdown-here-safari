@@ -5,7 +5,7 @@
 	<key>Author</key>
 	<string>adam-p</string>
 	<key>Builder Version</key>
-	<string>7536.29.13</string>
+	<string>7536.30.1</string>
 	<key>CFBundleDisplayName</key>
 	<string>Markdown Here</string>
 	<key>CFBundleIdentifier</key>
@@ -60,6 +60,7 @@
 				<string>markdown-here/src/common/utils.js</string>
 				<string>markdown-here/src/common/markdown-here.js</string>
 				<string>contentscript.js</string>
+				<string>markdown-here/src/common/common-logic.js</string>
 			</array>
 		</dict>
 	</dict>
