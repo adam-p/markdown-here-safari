@@ -177,6 +177,12 @@ function contentMessageHandler(event) {
     sendResponse();
     return;
   }
+  else if (event.message.action === 'get-forgot-to-render-prompt') {
+    CommonLogic.getForgotToRenderPromptContent(function(html) {
+      sendResponse({ html: html });
+    });
+    return;
+  }
   else {
     console.log('unmatched request action', event);
     throw 'unmatched request action: ' + event.message.action;

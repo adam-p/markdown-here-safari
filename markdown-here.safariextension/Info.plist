@@ -61,6 +61,8 @@
 				<string>markdown-here/src/common/markdown-here.js</string>
 				<string>contentscript.js</string>
 				<string>markdown-here/src/common/common-logic.js</string>
+				<string>markdown-here/src/common/jsHtmlToText.js</string>
+				<string>markdown-here/src/common/marked.js</string>
 			</array>
 		</dict>
 	</dict>

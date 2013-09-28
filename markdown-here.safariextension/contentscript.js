@@ -232,6 +232,18 @@ function intervalCheck() {
 
   hotkeyIntervalCheck(focusedElem);
   buttonIntervalCheck(focusedElem);
+
+  Utils.makeRequestToPrivilegedScript(
+    document,
+    { action: 'get-options' },
+    function(prefs) {
+      CommonLogic.forgotToRenderIntervalCheck(
+        focusedElem,
+        markdownHere,
+        htmlToText,
+        marked,
+        prefs);
+    });
 }
 if (!g_permaDisabled) {
   setInterval(intervalCheck, 2000);
