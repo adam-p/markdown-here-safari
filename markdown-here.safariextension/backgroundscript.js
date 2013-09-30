@@ -125,67 +125,65 @@ function contentMessageHandler(event) {
     throw 'unmatched request name: ' + event.name;
   }
 
-  var sendResponse = function(response) {
+  var request = event.message;
+
+  var responseCallback = function(response) {
     event.target.page.dispatchMessage(
       'request-response',
       {
-        requestID: event.message.requestID,
+        requestID: request.requestID,
         response: response
       });
   };
 
-  if (event.message.action === 'test-request') {
-    sendResponse('test-request-good');
+  if (request.action === 'test-request') {
+    responseCallback('test-request-good');
     return;
   }
-  else if (event.message.action === 'render') {
-    // Render some Markdown.
+  else if (request.action === 'render') {
     OptionsStore.get(function(prefs) {
-      sendResponse({
-        html: markdownRender(
+      responseCallback({
+        html: MarkdownRender.markdownRender(
+          request.mdText,
           prefs,
-          htmlToText,
           marked,
-          hljs,
-          event.message.html,
-          document,
-          event.target.url),
-        css: (prefs['main-css'] + prefs['syntax-css']),
+          hljs),
+        css: (prefs['main-css'] + prefs['syntax-css'])
       });
     });
     return;
   }
-  else if (event.message.action === 'get-options') {
-    OptionsStore.get(sendResponse);
+  else if (request.action === 'get-options') {
+    OptionsStore.get(responseCallback);
     return;
   }
-  else if (event.message.action === 'set-options') {
-    OptionsStore.set(event.message.options, sendResponse);
+  else if (request.action === 'set-options') {
+    OptionsStore.set(request.options, responseCallback);
     return;
   }
-  else if (event.message.action === 'remove-options') {
-    OptionsStore.remove(event.message.arrayOfKeys, sendResponse);
+  else if (request.action === 'remove-options') {
+    OptionsStore.remove(request.arrayOfKeys, responseCallback);
     return;
   }
-  else if (event.message.action === 'show-toggle-button') {
+  else if (request.action === 'show-toggle-button') {
     // Enable/disable the toggle button.
     // Only the active tab gets to set the button state -- ignore messages from
     // all other tabs.
     if (event.target === event.target.browserWindow.activeTab) {
-      safari.extension.toolbarItems[0].disabled = !event.message.show;
+      safari.extension.toolbarItems[0].disabled = !request.show;
     }
-    sendResponse();
+    responseCallback();
     return;
   }
-  else if (event.message.action === 'get-forgot-to-render-prompt') {
+  else if (request.action === 'get-forgot-to-render-prompt') {
     CommonLogic.getForgotToRenderPromptContent(function(html) {
-      sendResponse({ html: html });
+      responseCallback({ html: html });
     });
     return;
   }
   else {
     console.log('unmatched request action', event);
-    throw 'unmatched request action: ' + event.message.action;
+    throw 'unmatched request action: ' + request.action;
   }
 }
 safari.application.addEventListener('message', contentMessageHandler, false);

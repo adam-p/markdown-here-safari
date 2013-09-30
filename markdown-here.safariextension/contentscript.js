@@ -4,7 +4,7 @@
  */
 
 "use strict";
-/*global safari:false, markdownHere:false*/
+/*global safari:false, markdownHere:false, MdhHtmlToText:false*/
 /*jshint devel:true, browser:true*/
 
 
@@ -70,14 +70,16 @@ safari.self.addEventListener('message', backgroundMessageHandler, false);
 
 
 // The rendering service provided to the content script.
-// See the comment in markdown-render.js for why we do this.
-function requestMarkdownConversion(html, callback) {
+function requestMarkdownConversion(elem, range, callback) {
+  var mdhHtmlToText = new MdhHtmlToText.MdhHtmlToText(elem, range);
+
   // Send a request to the add-on script to actually do the rendering.
   Utils.makeRequestToPrivilegedScript(
     document,
-    { action: 'render', html: html },
+    { action: 'render', mdText: mdhHtmlToText.get() },
     function(response) {
-      callback(response.html, response.css);
+      var renderedMarkdown = mdhHtmlToText.postprocess(response.html);
+      callback(renderedMarkdown, response.css);
     });
 }
 
@@ -240,7 +242,7 @@ function intervalCheck() {
       CommonLogic.forgotToRenderIntervalCheck(
         focusedElem,
         markdownHere,
-        htmlToText,
+        MdhHtmlToText,
         marked,
         prefs);
     });

@@ -63,6 +63,7 @@
 				<string>markdown-here/src/common/common-logic.js</string>
 				<string>markdown-here/src/common/jsHtmlToText.js</string>
 				<string>markdown-here/src/common/marked.js</string>
+				<string>markdown-here/src/common/mdh-html-to-text.js</string>
 			</array>
 		</dict>
 	</dict>
