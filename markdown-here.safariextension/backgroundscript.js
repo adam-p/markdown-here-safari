@@ -114,70 +114,76 @@ window.addEventListener('load', function() {
  * Handle messages from the content script.
  */
 function contentMessageHandler(event) {
-  // Render some Markdown.
-  if (event.name === 'render') {
+  if (!event.target.page) {
+    // This sometimes get hit by content scripts loaded into not-real-pages,
+    // like the new tab "Top Sites/History" thing.
+    return;
+  }
+
+  if (event.name !== 'request') {
+    console.log('unmatched request name', event);
+    throw 'unmatched request name: ' + event.name;
+  }
+
+  var request = event.message;
+
+  var responseCallback = function(response) {
+    event.target.page.dispatchMessage(
+      'request-response',
+      {
+        requestID: request.requestID,
+        response: response
+      });
+  };
+
+  if (request.action === 'test-request') {
+    responseCallback('test-request-good');
+    return;
+  }
+  else if (request.action === 'render') {
     OptionsStore.get(function(prefs) {
-      event.target.page.dispatchMessage(
-        'render-response',
-        {
-          html: markdownRender(
-            prefs,
-            htmlToText,
-            marked,
-            hljs,
-            event.message.html,
-            document,
-            event.target.url),
-          css: (prefs['main-css'] + prefs['syntax-css']),
-          requestID: event.message.requestID
-        }
-      );
+      responseCallback({
+        html: MarkdownRender.markdownRender(
+          request.mdText,
+          prefs,
+          marked,
+          hljs),
+        css: (prefs['main-css'] + prefs['syntax-css'])
+      });
     });
     return;
   }
-
-  // Get the options object.
-  else if (event.name === 'get-options') {
-    OptionsStore.get(function(options) {
-      event.target.page.dispatchMessage(
-        'get-options-response',
-        { options: options, requestID: event.message.requestID });
-    });
+  else if (request.action === 'get-options') {
+    OptionsStore.get(responseCallback);
     return;
   }
-
-  // Set options values.
-  else if (event.name === 'set-options') {
-    OptionsStore.set(event.message.options, function() {
-      event.target.page.dispatchMessage(
-        'set-options-response',
-        { requestID: event.message.requestID });
-    });
+  else if (request.action === 'set-options') {
+    OptionsStore.set(request.options, responseCallback);
     return;
   }
-
-  // Remove options values.
-  else if (event.name === 'remove-options') {
-    OptionsStore.remove(event.message.arrayOfKeys, function() {
-      event.target.page.dispatchMessage(
-        'remove-options-response',
-        { requestID: event.message.requestID });
-    });
+  else if (request.action === 'remove-options') {
+    OptionsStore.remove(request.arrayOfKeys, responseCallback);
     return;
   }
-
-  // Enable/disable the toggle button.
-  else if (event.name === 'show-toggle-button') {
+  else if (request.action === 'show-toggle-button') {
+    // Enable/disable the toggle button.
     // Only the active tab gets to set the button state -- ignore messages from
     // all other tabs.
     if (event.target === event.target.browserWindow.activeTab) {
-      safari.extension.toolbarItems[0].disabled = !event.message.show;
+      safari.extension.toolbarItems[0].disabled = !request.show;
     }
+    responseCallback();
+    return;
+  }
+  else if (request.action === 'get-forgot-to-render-prompt') {
+    CommonLogic.getForgotToRenderPromptContent(function(html) {
+      responseCallback({ html: html });
+    });
     return;
   }
   else {
     console.log('unmatched request action', event);
-    throw 'unmatched request action: ' + event.name;
+    throw 'unmatched request action: ' + request.action;
   }
 }
 safari.application.addEventListener('message', contentMessageHandler, false);
