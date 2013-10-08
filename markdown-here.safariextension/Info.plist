@@ -13,9 +13,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.8.1</string>
+	<string>2.9.0</string>
 	<key>CFBundleVersion</key>
-	<string>2.8.1</string>
+	<string>2.9.0</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Context Menu Items</key>
@@ -60,6 +60,10 @@
 				<string>markdown-here/src/common/utils.js</string>
 				<string>markdown-here/src/common/markdown-here.js</string>
 				<string>contentscript.js</string>
+				<string>markdown-here/src/common/common-logic.js</string>
+				<string>markdown-here/src/common/jsHtmlToText.js</string>
+				<string>markdown-here/src/common/marked.js</string>
+				<string>markdown-here/src/common/mdh-html-to-text.js</string>
 			</array>
 		</dict>
 	</dict>
