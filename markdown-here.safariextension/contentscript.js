@@ -226,6 +226,8 @@ if (!g_permaDisabled) {
  * See specific sections above for reasons why this is necessary.
  */
 
+var forgotToRenderIntervalCheckPrefs = null;
+
 function intervalCheck() {
   var focusedElem = markdownHere.findFocusedElem(window.document);
   if (!focusedElem) {
@@ -235,17 +237,22 @@ function intervalCheck() {
   hotkeyIntervalCheck(focusedElem);
   buttonIntervalCheck(focusedElem);
 
-  Utils.makeRequestToPrivilegedScript(
-    document,
-    { action: 'get-options' },
-    function(prefs) {
-      CommonLogic.forgotToRenderIntervalCheck(
-        focusedElem,
-        markdownHere,
-        MdhHtmlToText,
-        marked,
-        prefs);
-    });
+  if (forgotToRenderIntervalCheckPrefs === null) {
+    Utils.makeRequestToPrivilegedScript(
+      document,
+      { action: 'get-options' },
+      function(prefs) {
+        forgotToRenderIntervalCheckPrefs = prefs;
+      });
+  }
+  else {
+    CommonLogic.forgotToRenderIntervalCheck(
+      focusedElem,
+      markdownHere,
+      MdhHtmlToText,
+      marked,
+      forgotToRenderIntervalCheckPrefs);
+  }
 }
 if (!g_permaDisabled) {
   setInterval(intervalCheck, 2000);
