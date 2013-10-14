@@ -1,0 +1,7 @@
+{
+  "name": "mdh-safari-stats-puller",
+  "dependencies": {
+    "aws-sdk": "*",
+    "bluebird": "*"
+  }
+}

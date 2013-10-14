@@ -4,3 +4,5 @@ Thumbs.db
 
 *.sublime-project
 *.sublime-workspace
+
+conf.json

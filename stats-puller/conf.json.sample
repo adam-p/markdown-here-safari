@@ -1,0 +1,7 @@
+{
+  "awsAccessID": "xxx",
+  "awsSecretKey": "xxx",
+  "logBucket": "xxx",
+  "extBucket": "xxx",
+  "extKey": "xxx"
+}
