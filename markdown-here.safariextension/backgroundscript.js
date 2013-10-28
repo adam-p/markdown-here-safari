@@ -5,7 +5,7 @@
 
 "use strict";
 /*global safari:false, OptionsStore:false, markdownRender:false,
-  htmlToText:false, marked:false, hljs:false*/
+  MarkdownRender:false, htmlToText:false, marked:false, hljs:false*/
 /*jshint devel:true*/
 
 
@@ -125,15 +125,15 @@ function contentMessageHandler(event) {
     throw 'unmatched request name: ' + event.name;
   }
 
-  var request = event.message;
+  var request = JSON.parse(event.message);
 
   var responseCallback = function(response) {
     event.target.page.dispatchMessage(
       'request-response',
-      {
+      JSON.stringify({
         requestID: request.requestID,
         response: response
-      });
+      }));
   };
 
   if (request.action === 'test-request') {
