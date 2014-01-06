@@ -1,11 +1,11 @@
 /*
- * Copyright Adam Pritchard 2013
+ * Copyright Adam Pritchard 2014
  * MIT License : http://adampritchard.mit-license.org/
  */
 
 "use strict";
-/*global safari:false, OptionsStore:false, markdownRender:false,
-  MarkdownRender:false, htmlToText:false, marked:false, hljs:false*/
+/*global safari:false, OptionsStore:false, markdownRender:false, CommonLogic:false,
+  Utils:false, MarkdownRender:false, htmlToText:false, marked:false, hljs:false*/
 /*jshint devel:true*/
 
 
@@ -57,6 +57,16 @@ function toggleHandler(event) {
   browserWindow.activeTab.page.dispatchMessage('mdh-toggle');
 }
 safari.application.addEventListener('command', toggleHandler, false);
+
+
+function getStringBundleHandler(callback) {
+  Utils.getSafariStringBundle(function(data, err) {
+    if (err) {
+      return callback(null);
+    }
+    return callback(data);
+  });
+}
 
 
 /*
@@ -171,6 +181,9 @@ function contentMessageHandler(event) {
     // all other tabs.
     if (event.target === event.target.browserWindow.activeTab) {
       safari.extension.toolbarItems[0].disabled = !request.show;
+      safari.extension.toolbarItems[0].toolTip = request.show ? Utils.getMessage('toggle_button_tooltip') : Utils.getMessage('toggle_button_tooltip_disabled');
+      safari.extension.toolbarItems[0].label = Utils.getMessage('toggle_button_text');
+      safari.extension.toolbarItems[0].paletteLabel = Utils.getMessage('toggle_button_text');
     }
     responseCallback();
     return;
@@ -179,6 +192,10 @@ function contentMessageHandler(event) {
     CommonLogic.getForgotToRenderPromptContent(function(html) {
       responseCallback({ html: html });
     });
+    return;
+  }
+  else if (request.action === 'get-string-bundle') {
+    getStringBundleHandler(responseCallback);
     return;
   }
   else {
