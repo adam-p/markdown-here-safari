@@ -1,5 +1,5 @@
 /*
- * Copyright Adam Pritchard 2013
+ * Copyright Adam Pritchard 2014
  * MIT License : http://adampritchard.mit-license.org/
  */
 
@@ -71,6 +71,9 @@ function processBucketBatch(marker) {
 
     Promise.all(objectProcessors).then(function() {
       stats.lastKey = lastKey || stats.lastKey;
+
+      // Write stats as we go.
+      fs.writeFileSync('./stats.json', JSON.stringify(stats));
 
       if (listBucketObjectsData.IsTruncated && lastKey) {
         // Recursive call to continue processing
