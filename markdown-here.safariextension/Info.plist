@@ -5,7 +5,7 @@
 	<key>Author</key>
 	<string>adam-p</string>
 	<key>Builder Version</key>
-	<string>9537.76.4</string>
+	<string>10600.3.18</string>
 	<key>CFBundleDisplayName</key>
 	<string>Markdown Here</string>
 	<key>CFBundleIdentifier</key>
@@ -13,9 +13,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.11.0</string>
+	<string>2.11.4</string>
 	<key>CFBundleVersion</key>
-	<string>2.11.0</string>
+	<string>2.11.4</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Context Menu Items</key>
@@ -69,6 +69,8 @@
 	</dict>
 	<key>Description</key>
 	<string>Write email in Markdown, and then make it pretty.</string>
+	<key>DeveloperIdentifier</key>
+	<string>BGUP9R32DW</string>
 	<key>ExtensionInfoDictionaryVersion</key>
 	<string>1.0</string>
 	<key>Permissions</key>
