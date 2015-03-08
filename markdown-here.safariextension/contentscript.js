@@ -209,7 +209,7 @@ function onLoad() {
         // are valid targets. And/or let the hotkey match if the correct type of
         // control has focus.
 
-        focusedElem.addEventListener('keydown', hotkeyHandler, false);
+        focusedElem.addEventListener('keydown', hotkeyHandler, true);
       };
     }
     // else the hotkey is disabled and we'll leave hotkeyIntervalCheck as a no-op
