@@ -5,7 +5,7 @@
 	<key>Author</key>
 	<string>adam-p</string>
 	<key>Builder Version</key>
-	<string>10600.3.18</string>
+	<string>11601.6.17</string>
 	<key>CFBundleDisplayName</key>
 	<string>Markdown Here</string>
 	<key>CFBundleIdentifier</key>
@@ -13,9 +13,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.11.4</string>
+	<string>2.12.0</string>
 	<key>CFBundleVersion</key>
-	<string>2.11.4</string>
+	<string>2.12.0</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Context Menu Items</key>
